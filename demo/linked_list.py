@@ -89,6 +89,27 @@ def find_element(search_value: int, node):
     return None, counter
 
 
+def delete_element(node):
+    if node.is_end():
+        new_end = node.pointer
+        node.pointer = None
+        new_end.previous = None
+        return new_end
+    elif node.is_start():
+        new_start = node.previous
+        node.previous = None
+        new_start.pointer = None
+        return new_start
+    else:
+        prev = node.previous
+        next_node = node.pointer
+        node.previous = None
+        node.pointer = None
+        prev.pointer = next_node
+        next_node.previous = prev
+        return next_node
+
+
 def report(node):
     print("")
     print("Linked List: ")
@@ -126,9 +147,12 @@ def main():
 
     reverse_list(node)
 
-    print("Searching for node 5")
-    node, count = find_element(5, go_to_start(node))
+    print("Searching for node 6")
+    node, count = find_element(6, go_to_start(node))
     print("Element: ", node, " Steps: ", count)
+    node = delete_element(node)
+
+    report(node)
 
 
 if __name__ == '__main__':
